@@ -3,23 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Perfil</title>
+    <title>Minha Bio</title>
     <style>
-        body { background-color: #000; color: white; font-family: sans-serif; text-align: center; padding-top: 50px; }
-        .avatar { width: 100px; border-radius: 50%; border: 2px solid #fff; }
-        .links { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
-        a { color: #fff; text-decoration: none; border: 1px solid #fff; padding: 10px; width: 200px; margin: 5px; border-radius: 5px; transition: 0.3s; }
-        a:hover { background: #fff; color: #000; }
+        /* Estilo Geral (Fundo e Fonte) */
+        body {
+            background-color: #0a0a0a; /* Fundo preto profundo */
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Avatar e Cabeçalho */
+        .profile-pic {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #ddd; /* Substitua pela sua imagem */
+            margin-bottom: 10px;
+        }
+
+        .username { font-size: 1.2rem; font-weight: bold; margin: 5px 0; }
+        .info { font-size: 0.8rem; color: #888; margin-bottom: 20px; }
+
+        /* Widget de Status (Estilo a imagem que você mandou) */
+        .status-card {
+            background: rgba(255, 255, 255, 0.05); /* Efeito de vidro escuro */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 15px;
+            width: 320px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-img { width: 50px; height: 50px; border-radius: 10px; }
+
+        /* Player de Música Minimalista */
+        .music-player {
+            width: 300px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            margin: 10px 0;
+        }
+        .progress-fill { width: 30%; height: 100%; background: #fff; }
+
+        /* Ícone de Som no Canto Superior */
+        .sound-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
-    <img src="https://github.com/SEU_USUARIO.png" class="avatar">
-    <h1>@SeuNome</h1>
-    <p>Bem-vindo ao meu cantinho!</p>
-    <div class="links">
-        <a href="https://instagram.com/seu_user">Instagram</a>
-        <a href="https://twitter.com/seu_user">Twitter</a>
-        <a href="https://youtube.com/seu_canal">YouTube</a>
+
+    <div class="sound-icon">🔊</div>
+
+    <div class="profile-pic"></div>
+    <div class="username">seu_nome ⭐</div>
+    <div class="info">Joined about 1 year ago</div>
+
+    <div class="status-card">
+        <img src="https://via.placeholder.com/50" class="status-img">
+        <div>
+            <div style="font-weight: bold;">Listening to...</div>
+            <div style="font-size: 0.8rem; color: #aaa;">Artista - Música</div>
+        </div>
     </div>
+
+    <div class="music-player">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://via.placeholder.com/40" style="border-radius: 5px;">
+            <span>Título da Música</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.7rem;">
+            <span>0:45</span>
+            <span>3:10</span>
+        </div>
+    </div>
+
 </body>
 </html>
