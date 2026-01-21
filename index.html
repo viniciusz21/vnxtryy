@@ -14,7 +14,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Esconde mouse padrão */ }
 
         body {
-            background-color: #050505;
+            /* MUDANÇA AQUI: Fundo preto absoluto para destaque máximo */
+            background-color: #000000;
             font-family: 'Inter', sans-serif;
             height: 100vh;
             display: flex;
@@ -22,31 +23,29 @@
             align-items: center;
             overflow: hidden;
             color: #fff;
+            position: relative;
         }
 
-        /* ================= BACKGROUND ================= */
-        .bg-image {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            
-            /* Tentei pegar o link direto da sua imagem. Se falhar, coloque o link direto (.png/.jpg) aqui */
-            background: url('https://i.ibb.co/1frJPPvw/image.png') no-repeat center center/cover;
-            
-            z-index: -2;
-            filter: brightness(0.3); /* Escurece para destacar o texto */
-        }
+        /* (A classe .bg-image foi removida daqui) */
 
-        /* Neve (Efeito Pro) */
-        .snow {
+        /* ================= KANJI RAIN (YABUJIN STYLE) ================= */
+        .kanji {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: -10vh;
+            color: rgba(255, 255, 255, 0.35); /* Branco transparente */
+            z-index: 1; /* Atrás do card, na frente do fundo */
             pointer-events: none;
-            z-index: 1;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.5;
-            animation: snow 30s linear infinite;
+            font-weight: 900;
+            user-select: none;
+            will-change: transform;
         }
-        @keyframes snow { from { background-position: 0 0; } to { background-position: 0 1000px; } }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
 
         /* ================= CURSOR (RETÍCULA +) ================= */
         .cursor-crosshair {
@@ -63,7 +62,8 @@
 
         /* ================= CARD PRINCIPAL (Vidro Dark) ================= */
         .card {
-            background: rgba(15, 15, 15, 0.8);
+            /* Fundo do card um pouco mais claro que o preto total para contraste */
+            background: rgba(20, 20, 20, 0.85);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             width: 100%;
@@ -72,7 +72,8 @@
             padding: 50px 30px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+            /* Sombra forte para destacar do fundo preto */
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 1);
             position: relative;
             z-index: 10;
         }
@@ -146,8 +147,6 @@
 </head>
 <body>
 
-    <div class="bg-image"></div>
-    <div class="snow"></div>
     <div class="cursor-crosshair" id="cursor"></div>
 
     <div class="card">
@@ -190,12 +189,36 @@
     <script>
         const USER_ID = "1306661332128501802"; 
 
+        // --- CURSOR ---
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
+        // --- KANJI RAIN GENERATOR ---
+        function createKanji() {
+            // Caracteres estilo Yabujin
+            const kanjiChars = "愛死神夢幻虚無混沌破壊創造天使悪魔空海月星零"; 
+            const kanji = document.createElement("div");
+            kanji.classList.add("kanji");
+            kanji.innerText = kanjiChars[Math.floor(Math.random() * kanjiChars.length)];
+
+            kanji.style.left = Math.random() * 100 + "vw";
+            kanji.style.fontSize = Math.random() * 30 + 10 + "px"; 
+            const duration = Math.random() * 5 + 5; 
+            kanji.style.animation = `fall ${duration}s linear`;
+
+            document.body.appendChild(kanji);
+
+            setTimeout(() => {
+                kanji.remove();
+            }, duration * 1000);
+        }
+        setInterval(createKanji, 300);
+
+
+        // --- DISCORD LANYARD ---
         async function updateProfile() {
             try {
                 const res = await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}`);
