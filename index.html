@@ -14,8 +14,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Esconde mouse padrão */ }
 
         body {
-            /* MUDANÇA AQUI: Fundo preto absoluto para destaque máximo */
-            background-color: #000000;
+            background-color: #000000; /* Fundo preto absoluto */
             font-family: 'Inter', sans-serif;
             height: 100vh;
             display: flex;
@@ -26,18 +25,18 @@
             position: relative;
         }
 
-        /* (A classe .bg-image foi removida daqui) */
-
         /* ================= KANJI RAIN (YABUJIN STYLE) ================= */
         .kanji {
             position: fixed;
             top: -10vh;
-            color: rgba(255, 255, 255, 0.35); /* Branco transparente */
-            z-index: 1; /* Atrás do card, na frente do fundo */
+            /* MUDANÇA AQUI: Cor dos Kanjis para Vermelho com transparência */
+            color: rgba(255, 0, 0, 0.7); 
+            z-index: 1;
             pointer-events: none;
             font-weight: 900;
             user-select: none;
             will-change: transform;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Adicionei um leve brilho vermelho neles */
         }
 
         @keyframes fall {
@@ -62,7 +61,6 @@
 
         /* ================= CARD PRINCIPAL (Vidro Dark) ================= */
         .card {
-            /* Fundo do card um pouco mais claro que o preto total para contraste */
             background: rgba(20, 20, 20, 0.85);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -72,7 +70,6 @@
             padding: 50px 30px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            /* Sombra forte para destacar do fundo preto */
             box-shadow: 0 30px 70px rgba(0, 0, 0, 1);
             position: relative;
             z-index: 10;
@@ -86,12 +83,16 @@
             border-radius: 50%;
             border: 4px solid rgba(30, 30, 30, 0.8);
             object-fit: cover;
+            position: relative; z-index: 2;
         }
 
         /* Glow do Status */
         .status-glow {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 50%; z-index: -1; opacity: 0.5; filter: blur(20px); transition: background 0.5s;
+            border-radius: 50%; z-index: 1; 
+            opacity: 1; 
+            filter: blur(25px); /* Aumentei o blur para o brilho ficar maior */
+            transition: background 0.5s, box-shadow 0.5s;
         }
 
         /* Nome Animado */
@@ -122,8 +123,9 @@
             transition: all 0.3s ease;
         }
         .btn:hover {
-            background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); color: #fff;
+            background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 0, 0, 0.5); /* Borda vermelha no hover */
+            transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2); /* Sombra vermelha no hover */
+            color: #fff;
         }
 
         /* GIF Decorativo */
@@ -198,7 +200,6 @@
 
         // --- KANJI RAIN GENERATOR ---
         function createKanji() {
-            // Caracteres estilo Yabujin
             const kanjiChars = "愛死神夢幻虚無混沌破壊創造天使悪魔空海月星零"; 
             const kanji = document.createElement("div");
             kanji.classList.add("kanji");
@@ -235,11 +236,11 @@
                 
                 document.getElementById('footer-user').innerText = user.username;
 
-                const statusColors = { online: "#43b581", idle: "#faa61a", dnd: "#f04747", offline: "#747f8d" };
-                const color = statusColors[data.discord_status] || statusColors.offline;
+                // MUDANÇA AQUI: Forçar cor VERMELHA no brilho, ignorando o status real
+                const forcedRed = "rgba(255, 0, 0, 0.8)"; // Cor vermelha forte
                 
-                document.getElementById('glow').style.backgroundColor = color;
-                document.getElementById('glow').style.boxShadow = `0 0 25px ${color}`;
+                document.getElementById('glow').style.backgroundColor = forcedRed;
+                document.getElementById('glow').style.boxShadow = `0 0 50px ${forcedRed}`; // Brilho intenso vermelho
 
                 if (data.activities && data.activities.length > 0) {
                     let act = data.activities.find(a => a.type !== 4) || data.activities[0];
