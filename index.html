@@ -3,12 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha Bio</title>
+    
+    <link rel="icon" id="favicon" type="image/png" href="">
+    
+    <title>y.uez</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* Estilo Geral (Fundo e Fonte) */
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(18, 18, 18, 0.7);
+            --border: rgba(255, 255, 255, 0.05);
+            --text-dim: #999;
+        }
+
         body {
-            background-color: #0a0a0a; /* Fundo preto profundo */
-            color: #ffffff;
+            background-color: var(--bg-color);
+            color: #fff;
             font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
@@ -16,88 +28,163 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
         }
 
-        /* Avatar e Cabeçalho */
-        .profile-pic {
-            width: 90px;
-            height: 90px;
+        /* Botão de Som */
+        .mute-btn {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* Perfil Principal */
+        .profile-header { text-align: center; margin-bottom: 25px; }
+        
+        #discord-pfp {
+            width: 95px;
+            height: 95px;
             border-radius: 50%;
-            background: #ddd; /* Substitua pela sua imagem */
-            margin-bottom: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
         }
 
-        .username { font-size: 1.2rem; font-weight: bold; margin: 5px 0; }
-        .info { font-size: 0.8rem; color: #888; margin-bottom: 20px; }
-
-        /* Widget de Status (Estilo a imagem que você mandou) */
-        .status-card {
-            background: rgba(255, 255, 255, 0.05); /* Efeito de vidro escuro */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .badge {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
             border-radius: 20px;
-            padding: 15px;
-            width: 320px;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .joined {
+            font-family: 'Crimson Text', serif;
+            font-style: italic;
+            color: var(--text-dim);
+            margin-top: 10px;
+            font-size: 15px;
+        }
+
+        /* Widget de Status (Lanyard) */
+        .status-widget {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 20px;
+            width: 380px;
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
         }
 
-        .status-img { width: 50px; height: 50px; border-radius: 10px; }
+        .app-img { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; }
+        .status-text b { display: block; font-size: 15px; margin-bottom: 2px; }
+        .status-text span { color: var(--text-dim); font-size: 13px; line-height: 1.4; }
 
-        /* Player de Música Minimalista */
-        .music-player {
-            width: 300px;
-            text-align: left;
-            font-size: 0.9rem;
-        }
+        /* Player de Música */
+        .player-container { width: 400px; padding: 10px; }
+        .song-info { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .album-art { width: 45px; height: 45px; border-radius: 6px; }
+        
         .progress-bar {
             width: 100%;
             height: 4px;
-            background: #333;
-            border-radius: 2px;
-            margin: 10px 0;
+            background: #1a1a1a;
+            border-radius: 10px;
+            position: relative;
+            margin: 15px 0;
         }
-        .progress-fill { width: 30%; height: 100%; background: #fff; }
+        .progress-fill {
+            width: 40%;
+            height: 100%;
+            background: #fff;
+            border-radius: 10px;
+        }
 
-        /* Ícone de Som no Canto Superior */
-        .sound-icon {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.1);
-            padding: 8px;
-            border-radius: 8px;
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            font-size: 20px;
+            color: #fff;
         }
     </style>
 </head>
 <body>
 
-    <div class="sound-icon">🔊</div>
+    <div class="mute-btn" onclick="toggleMusic()">🔊</div>
 
-    <div class="profile-pic"></div>
-    <div class="username">seu_nome ⭐</div>
-    <div class="info">Joined about 1 year ago</div>
+    <div class="profile-header">
+        <img id="discord-pfp" src="" alt="Avatar">
+        <br>
+        <div class="badge">💎</div>
+        <div class="joined">Joined about 1 year ago</div>
+    </div>
 
-    <div class="status-card">
-        <img src="https://via.placeholder.com/50" class="status-img">
-        <div>
-            <div style="font-weight: bold;">Listening to...</div>
-            <div style="font-size: 0.8rem; color: #aaa;">Artista - Música</div>
+    <div class="status-widget">
+        <img src="https://i.pinimg.com/736x/96/8e/33/968e33f38f426569f10f96895c110996.jpg" class="app-img">
+        <div class="status-text">
+            <b>y.uez ♡ <span id="discord-name">...</span></b>
+            <span>Streaming...</span><br>
+            <span>ジンクス</span>
         </div>
     </div>
 
-    <div class="music-player">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="https://via.placeholder.com/40" style="border-radius: 5px;">
-            <span>Título da Música</span>
+    <div style="color: var(--text-dim); font-size: 13px; margin-bottom: 40px;">📍 ??</div>
+
+    <div class="player-container">
+        <div class="song-info">
+            <img src="https://i.scdn.co/image/ab67616d0000b273703387877207c453e0258074" class="album-art">
+            <div style="font-size: 14px;">☆</div>
         </div>
         <div class="progress-bar"><div class="progress-fill"></div></div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.7rem;">
-            <span>0:45</span>
-            <span>3:10</span>
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-dim);">
+            <span>0:08</span><span>2:49</span>
+        </div>
+        <div class="controls">
+            <span>⏮</span><span>II</span><span>⏭</span>
         </div>
     </div>
 
+    <audio id="bg-music" loop>
+        <source src="SUA_URL_DA_MUSICA.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const DISCORD_ID = "1306661332128501802"; // COLOQUE SEU ID AQUI
+
+        async function fetchDiscord() {
+            try {
+                const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+                const data = await response.json();
+                const user = data.data;
+
+                // Atualiza a Foto de Perfil
+                const pfp = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${user.discord_user.avatar}.png`;
+                document.getElementById('discord-pfp').src = pfp;
+                document.getElementById('favicon').href = pfp; // FOTINHA NA ABA
+                document.getElementById('discord-name').innerText = user.discord_user.username;
+            } catch (e) { console.error("Erro ao carregar Discord"); }
+        }
+
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            if (audio.paused) audio.play(); else audio.pause();
+        }
+
+        fetchDiscord();
+    </script>
 </body>
 </html>
